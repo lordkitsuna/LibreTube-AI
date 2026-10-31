@@ -38,6 +38,11 @@ verified by the owner on a real device. See CONTRIBUTING.md for the policy.
    test steps for the owner; and a line disclosing AI use.
 8. **The owner device-tests and merges.** Agents never merge their own PRs,
    never force-push, never push to `master`/`patched`, never delete branches.
+9. **Git identity.** Commit with the identity configured in the repo (the
+   local agent's is `Qwen3.8-27B (local agent)`). Never change
+   `user.name`/`user.email`, never re-author commits, and never use another
+   person's or another AI's identity. If a push is rejected (e.g. email
+   privacy), stop and report it instead of working around it.
 
 ## Build and verify
 
