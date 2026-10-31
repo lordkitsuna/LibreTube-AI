@@ -57,6 +57,10 @@ open class OnlinePlayerService : AbstractPlayerService() {
 
     // PlaylistId/ChannelId for autoplay
     private var playlistId: String? = null
+    // Set only once per service (from playerData.playlistId); retained during
+    // auto-advance/shuffle, so it identifies the whole playlist playback session
+    override val currentPlaylistId: String?
+        get() = playlistId
     private var channelId: String? = null
     private var startTimestampSeconds: Long? = null
 

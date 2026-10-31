@@ -40,6 +40,8 @@
     <string name="grid_landscape">Grid columns (landscape)</string>
     <string name="emptyList">Nothing here.</string>
     <string name="deletePlaylist">Delete playlist</string>
+    <string name="playlist_dont_remember_positions">Don\'t remember positions</string>
+    <string name="playlist_remember_positions">Remember positions</string>
     <string name="areYouSure">Delete the playlist?</string>
     <string name="createPlaylist">Create playlist</string>
     <string name="createNewPlaylist">Create new playlist</string>
