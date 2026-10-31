@@ -426,6 +426,8 @@ abstract class AbstractPlayerService : MediaLibraryService(), MediaLibrarySessio
         try {
             mediaLibrarySession = MediaLibrarySession.Builder(this, forwardingPlayer, this)
                 .setId(this.javaClass.name)
+                // honour the data saver for the notification artwork (issue #5)
+                .setBitmapLoader(DataSaverBitmapLoader(this))
                 .build()
         } catch (e: Exception) {
             Log.e(TAG(), "failed to start media library session because it already exists")

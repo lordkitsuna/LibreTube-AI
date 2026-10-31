@@ -77,7 +77,7 @@ object ImageHelper {
     /**
      * Checks if the corresponding image for the given key (e.g. a url) is cached.
      */
-    private fun isCached(key: String): Boolean {
+    fun isCached(key: String): Boolean {
         val cacheSnapshot = imageLoader.diskCache?.openSnapshot(key)
         val isCacheHit = cacheSnapshot?.data?.toFile()?.exists()
         cacheSnapshot?.close()
@@ -128,6 +128,13 @@ object ImageHelper {
     }
 
     suspend fun getImage(context: Context, url: Uri?): Bitmap? {
+        val urlStr = url?.toString().orEmpty()
+
+        // only load online images if the data saver mode is disabled (mirrors loadImage)
+        if (urlStr.startsWith(HTTP_SCHEME) && DataSaverMode.isEnabled(context) && !isCached(urlStr)) {
+            return null
+        }
+
         val request = ImageRequest.Builder(context)
             .data(url)
             .build()
