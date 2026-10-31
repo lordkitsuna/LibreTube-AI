@@ -61,7 +61,7 @@ abstract class AbstractPlayerService : MediaLibraryService(), MediaLibrarySessio
     lateinit var videoId: String
 
     var isTransitioning = false
-        private set
+        protected set
 
     val handler = Handler(Looper.getMainLooper())
 
@@ -250,8 +250,14 @@ abstract class AbstractPlayerService : MediaLibraryService(), MediaLibrarySessio
      */
     @CallSuper
     open fun navigateVideo(videoId: String) {
+        // Mark the transition on the main thread before touching the player, and pause
+        // instead of clearing: the old item must stay loaded until the new item's streams
+        // are ready, otherwise the empty timeline makes Media3 remove the notification and
+        // drop the foreground service, whose re-promotion from the background crashes with
+        // ForegroundServiceStartNotAllowedException. The new item replaces the old one.
+        isTransitioning = true
         sponsorBlockSegments = emptyList()
-        exoPlayer?.clearMediaItems()
+        exoPlayer?.pause()
 
         this.videoId = videoId
 
