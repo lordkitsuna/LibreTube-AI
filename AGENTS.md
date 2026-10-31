@@ -13,7 +13,10 @@ verified by the owner on a real device. See CONTRIBUTING.md for the policy.
 - `master` mirrors upstream. Never commit to it.
 - `patched` is the default branch: upstream + this fork's changes.
 - Upstream does NOT accept AI-assisted issues or PRs. Never open, comment on or
-  push to anything in `libre-tube/*`.
+  push to anything in `libre-tube/*`, and never *mention* it either: in issues,
+  PRs and commit messages write "upstream issue 8882", not
+  `libre-tube/LibreTube#8882` or a link to it, because GitHub would add a
+  "mentioned this" event to the upstream thread.
 
 ## How work is done
 
@@ -81,7 +84,7 @@ verified by the owner on a real device. See CONTRIBUTING.md for the policy.
   issue #1). `isTransitioning` marks a transition in progress.
 - **Media3** is pinned at the upstream version (see `gradle/libs.versions.toml`).
   Dependency upgrades are separate PRs with their own device test: upstream
-  rolled back a dependency batch after a crash (libre-tube/LibreTube#8416).
+  rolled back a dependency batch after a crash (upstream PR 8416).
 - **Room schema changes:** bump the version in `AppDatabase`, add an
   `AutoMigration` or a manual migration, and commit the exported schema JSON.
   Prefer avoiding a schema change when a preference will do.
