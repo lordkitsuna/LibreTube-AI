@@ -80,7 +80,7 @@ open class OnlinePlayerService : AbstractPlayerService() {
                 }
 
                 Player.STATE_IDLE -> {
-                    onDestroy()
+                    if (!isTransitioning) onDestroy()
                 }
 
                 Player.STATE_BUFFERING -> {}
@@ -147,7 +147,14 @@ open class OnlinePlayerService : AbstractPlayerService() {
                     toastFromMainDispatcher(e.localizedMessage.orEmpty())
                     return@withContext null
                 }
-            } ?: return@launch
+            } ?: run {
+                // The stream fetch failed: keep the previous failure behaviour (toast +
+                // stop) and clear the flag so a failed transition can't leave the service
+                // stuck on the paused old item.
+                isTransitioning = false
+                onDestroy()
+                return@launch
+            }
 
             streams?.toStreamItem(videoId)?.let {
                 // save the current stream to the queue
