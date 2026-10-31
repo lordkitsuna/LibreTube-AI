@@ -195,6 +195,12 @@ object PlayerHelper {
     val watchPositionsAny: Boolean
         get() = watchPositionsVideo || watchPositionsAudio
 
+    val playlistsWithoutPositions: Set<String>
+        get() = PreferenceHelper.getStringSet(
+            PreferenceKeys.PLAYLISTS_WITHOUT_WATCH_POSITIONS,
+            emptySet()
+        )
+
     val watchHistoryEnabled: Boolean
         get() = PreferenceHelper.getBoolean(
             PreferenceKeys.WATCH_HISTORY_TOGGLE,

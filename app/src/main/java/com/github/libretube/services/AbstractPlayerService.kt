@@ -346,9 +346,19 @@ abstract class AbstractPlayerService : MediaLibraryService(), MediaLibrarySessio
     abstract val isOfflinePlayer: Boolean
     var isAudioOnlyPlayer: Boolean = false
 
+    /**
+     * ID of the playlist this playback session was started from, or null
+     * outside of a playlist. Lets [watchPositionsEnabled] apply the
+     * per-playlist "don't remember positions" opt-out.
+     */
+    protected open val currentPlaylistId: String?
+        get() = null
+
     val watchPositionsEnabled
         get() =
-            (PlayerHelper.watchPositionsAudio && isAudioOnlyPlayer) || (PlayerHelper.watchPositionsVideo && !isAudioOnlyPlayer)
+            ((PlayerHelper.watchPositionsAudio && isAudioOnlyPlayer) ||
+                (PlayerHelper.watchPositionsVideo && !isAudioOnlyPlayer)) &&
+                (currentPlaylistId?.let { !PlayerHelper.playlistsWithoutPositions.contains(it) } ?: true)
 
     override fun onGetSession(controllerInfo: MediaSession.ControllerInfo): MediaLibrarySession? =
         mediaLibrarySession

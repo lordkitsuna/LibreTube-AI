@@ -10,7 +10,10 @@ import androidx.lifecycle.lifecycleScope
 import com.github.libretube.R
 import com.github.libretube.api.PlaylistsHelper
 import com.github.libretube.constants.IntentData
+import com.github.libretube.constants.PreferenceKeys
 import com.github.libretube.extensions.toastFromMainDispatcher
+import com.github.libretube.helpers.PlayerHelper
+import com.github.libretube.helpers.PreferenceHelper
 import com.github.libretube.ui.sheets.PlaylistOptionsBottomSheet
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
@@ -41,6 +44,17 @@ class DeletePlaylistDialog : DialogFragment() {
                         context.toastFromMainDispatcher(
                             if (success) R.string.success else R.string.fail
                         )
+                        if (success) {
+                            // local playlist IDs are reused after deletion, so the ID must
+                            // not stay in the "don't remember positions" opt-out set
+                            val positionsSet = PlayerHelper.playlistsWithoutPositions.toMutableSet()
+                            if (positionsSet.remove(playlistId)) {
+                                PreferenceHelper.putStringSet(
+                                    PreferenceKeys.PLAYLISTS_WITHOUT_WATCH_POSITIONS,
+                                    positionsSet
+                                )
+                            }
+                        }
                         withContext(Dispatchers.Main) {
                             dismiss()
 

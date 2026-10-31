@@ -8,6 +8,7 @@ import com.github.libretube.R
 import com.github.libretube.api.MediaServiceRepository
 import com.github.libretube.api.PlaylistsHelper
 import com.github.libretube.constants.IntentData
+import com.github.libretube.constants.PreferenceKeys
 import com.github.libretube.enums.ImportFormat
 import com.github.libretube.enums.PlaylistType
 import com.github.libretube.enums.ShareObjectType
@@ -17,6 +18,8 @@ import com.github.libretube.extensions.toastFromMainDispatcher
 import com.github.libretube.helpers.BackgroundHelper
 import com.github.libretube.helpers.ContextHelper
 import com.github.libretube.helpers.DownloadHelper
+import com.github.libretube.helpers.PlayerHelper
+import com.github.libretube.helpers.PreferenceHelper
 import com.github.libretube.obj.ShareData
 import com.github.libretube.parcelable.PlayerData
 
@@ -63,6 +66,15 @@ class PlaylistOptionsBottomSheet : BaseBottomSheet() {
             optionsList.add(R.string.change_playlist_description)
             optionsList.add(R.string.deletePlaylist)
         }
+
+        // per-playlist "don't remember positions" opt-out, for both playlist types
+        optionsList.add(
+            if (PlayerHelper.playlistsWithoutPositions.contains(playlistId)) {
+                R.string.playlist_remember_positions
+            } else {
+                R.string.playlist_dont_remember_positions
+            }
+        )
 
         return optionsList
     }
@@ -171,6 +183,21 @@ class PlaylistOptionsBottomSheet : BaseBottomSheet() {
                             includeTimestamp
                         )
                 }
+            }
+
+            // toggle the per-playlist "don't remember positions" opt-out (both labels arrive here)
+            R.string.playlist_dont_remember_positions,
+            R.string.playlist_remember_positions -> {
+                val positionsSet = PlayerHelper.playlistsWithoutPositions.toMutableSet()
+                if (positionsSet.contains(playlistId)) {
+                    positionsSet.remove(playlistId)
+                } else {
+                    positionsSet.add(playlistId)
+                }
+                PreferenceHelper.putStringSet(
+                    PreferenceKeys.PLAYLISTS_WITHOUT_WATCH_POSITIONS,
+                    positionsSet
+                )
             }
 
             else -> {
