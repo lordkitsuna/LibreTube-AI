@@ -2,7 +2,20 @@
   <img src="assets/banners/gh-banner.png" width="auto" height="auto" alt="LibreTube">
 
 [![GPL-v3](assets/widgets/license-widget.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
-</div><div align="center" style="width:100%; display:flex; justify-content:space-between;">
+</div>
+
+> [!IMPORTANT]
+> **This is LibreTube-AI, an unofficial fork of [LibreTube](https://github.com/libre-tube/LibreTube).**
+> Its changes are developed with AI assistance and reproduced and verified on a device by a human
+> before they are merged. It is not affiliated with or supported by the LibreTube team.
+> - The `patched` branch (default) is upstream LibreTube plus this fork's changes; `master` mirrors upstream.
+> - Every change has an issue and a pull request in this repo explaining what was wrong and why it was fixed that way.
+> - Report problems with this fork's changes [here](https://github.com/lordkitsuna/LibreTube-AI/issues). Problems that also happen in official LibreTube belong
+>   [upstream](https://github.com/libre-tube/LibreTube/issues), but upstream does not accept AI-assisted reports or code.
+> - The download links and community channels below are upstream's and point to the official builds, not this fork.
+> - See [CONTRIBUTING.md](CONTRIBUTING.md) for how changes are made here.
+
+<div align="center" style="width:100%; display:flex; justify-content:space-between;">
 
 [![Matrix](assets/widgets/mat-widget.svg)](https://matrix.to/#/#LibreTube:matrix.org)
 [![Mastodon](assets/widgets/mast-widget.svg)](https://fosstodon.org/@libretube)
