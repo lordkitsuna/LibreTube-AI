@@ -31,3 +31,9 @@ google-services.json
 # Android Profiling
 *.hprof
 .DS_Store
+
+# Agent working files
+.agent-tmp/
+/PROGRESS.md
+/FINDINGS.md
+/PLAN.md
